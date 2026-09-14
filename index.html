@@ -405,12 +405,14 @@ function renderResources(resources) {
   });
 }
 
-function renderForm(fields) {
+function renderForm(formData) {
   const form = document.getElementById('checkpoint-form');
   const submitBtn = form.querySelector('.submit-btn');
   form.innerHTML = '';
 
-  const fieldList = Array.isArray(fields) ? fields : [];
+  const fieldList = Array.isArray(formData)
+    ? formData
+    : (formData && Array.isArray(formData.fields) ? formData.fields : []);
 
   fieldList.forEach(field => {
     const group = document.createElement('div');
@@ -424,7 +426,7 @@ function renderForm(fields) {
       inputHTML = `<input type="text" id="${id}" ${field.required ? 'required' : ''} />`;
     } else if (field.type === 'date') {
       inputHTML = `<input type="date" id="${id}" ${field.required ? 'required' : ''} />`;
-    } else if (field.type === 'long_text' || field.type === 'quote_citation' || field.type === 'reflection') {
+    } else if (field.type === 'long_text' || field.type === 'text_analysis' || field.type === 'quote_citation' || field.type === 'reflection' || field.type === 'open_ended') {
       inputHTML = `<textarea id="${id}" rows="5" ${field.required ? 'required' : ''}></textarea>`;
     } else if (field.type === 'multiple_choice' || field.type === 'true_false') {
       const options = field.type === 'true_false' ? ['True', 'False'] : (field.options || []);
